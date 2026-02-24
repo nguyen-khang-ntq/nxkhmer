@@ -4,7 +4,7 @@ This project contains pipelines and models for Text-to-Speech (TTS) research and
 
 ## Folder Structure
 
-### 📊 `audio_pipeline/`
+### `audio_pipeline/`
 Audio data processing pipeline for cleaning, standardization, and preparation.
 
 **Key features:**
@@ -16,7 +16,7 @@ Audio data processing pipeline for cleaning, standardization, and preparation.
 
 **Main entry point:** `main.py`
 
-### 🔬 `eval_pipeline/`
+### `eval_pipeline/`
 Comprehensive TTS evaluation metrics and testing framework.
 
 **Supported metrics:**
@@ -30,11 +30,11 @@ Comprehensive TTS evaluation metrics and testing framework.
 
 **Documentation:** See `TESTING.md` and `INSTALL.md`
 
-### 🎙️ `model/`
+### `model/`
 TTS model implementations and training scripts.
 
 **Supported models:**
-- **F5-TTS** - Flow-based TTS with duration control
+- **Vits** - CoquiTTS
 - **Orpheus** - LLM-based TTS using SNAC tokenization
 - **NeuTTS** - Neural codec-based TTS
 - **VITS** - Variational Inference TTS
