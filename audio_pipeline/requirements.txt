@@ -1,0 +1,73 @@
+# ==============================================================================
+# Audio Processing Pipeline Requirements
+# ==============================================================================
+
+# -------------------------
+# Deep Learning Frameworks
+# -------------------------
+torch>=2.0.0
+torchaudio>=2.0.0
+accelerate>=1.12.0
+transformers>=4.50.0
+
+# -------------------------
+# Audio Processing
+# -------------------------
+librosa>=0.11.0
+soundfile>=0.13.0
+audioread>=3.0.0
+soxr>=1.0.0
+pydub>=0.25.0
+praat-parselmouth>=0.4.7
+
+# -------------------------
+# Speaker Diarization (PyAnnote)
+# -------------------------
+pyannote-audio>=4.0.0
+pyannote-core>=6.0.0
+pyannote-database>=6.1.0
+pyannote-pipeline>=4.0.0
+
+# -------------------------
+# ASR & Speech Processing
+# -------------------------
+omnilingual-asr>=0.1.0
+datasets>=4.0.0
+tokenizers>=0.22.0
+sentencepiece>=0.2.0
+jiwer>=4.0.0
+
+# -------------------------
+# Audio Quality Assessment
+# -------------------------
+# DNSMOS dependencies (will be added when implementing quality filter)
+onnxruntime-gpu>=1.23.0
+
+# -------------------------
+# Sidon Audio Cleaning
+# -------------------------
+peft>=0.11.0
+descript-audio-codec>=1.0.0
+
+# -------------------------
+# Scientific Computing
+# -------------------------
+numpy>=1.26.0,<2.0.0
+scipy>=1.15.0
+scikit-learn>=1.7.0
+pandas>=2.3.0
+
+# -------------------------
+# Utilities
+# -------------------------
+tqdm>=4.67.0
+rich>=13.0.0
+PyYAML>=6.0.0
+click>=8.0.0
+huggingface-hub>=0.36.0
+
+# -------------------------
+# Optional: Analysis & Visualization
+# -------------------------
+matplotlib>=3.10.0
+# jupyter  # Uncomment if needed for analysis

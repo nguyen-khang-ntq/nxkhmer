@@ -1,0 +1,11 @@
+CUDA_VISIBLE_DEVICES=6 python train_gpt_xtts.py \
+--output_path checkpoints/ \
+--metadatas /home/coder/datasets/crawl_datasets/final_dataset/train_new.csv,/home/coder/datasets/crawl_datasets/final_dataset/val_new.csv,km \
+--num_epochs 20 \
+--batch_size 8 \
+--grad_acumm 4 \
+--max_text_length 400 \
+--max_audio_length 441000 \
+--weight_decay 1e-2 \
+--lr 1e-5 \
+--save_step 50000

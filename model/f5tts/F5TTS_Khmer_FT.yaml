@@ -1,0 +1,64 @@
+hydra:
+  run:
+    dir: ckpts/${model.name}_${model.mel_spec.mel_spec_type}_${model.tokenizer}_${datasets.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+datasets:
+  name: /home/coder/data/Speech/TTS/F5-TTS/src/f5_tts/train/datasets/khmer_dataset  
+  batch_size_per_gpu: 8192
+  batch_size_type: frame  
+  max_samples: 64  
+  num_workers: 8  
+  dataset_type: "JSONDataset"
+  audio_type: "raw"
+
+
+optim:
+  epochs: 200  # number of training epochs
+  learning_rate: 5e-5
+  num_warmup_updates: 20000  # warmup steps
+  grad_accumulation_steps: 2  # increase if batch size is small
+  max_grad_norm: 1.0
+  bnb_optimizer: False  # set True if you want to save memory with 8bit optimizer
+
+model:
+  name: F5TTS_Khmer_FT  # model name
+  tokenizer: custom  # use custom tokenizer for Khmer
+  tokenizer_path: /home/coder/data/Speech/TTS/F5-TTS/src/f5_tts/train/datasets/khmer_dataset  # path to folder containing vocab.txt
+  backbone: DiT
+  arch:
+    dim: 1024
+    depth: 22
+    heads: 16
+    ff_mult: 2
+    text_dim: 512
+    text_mask_padding: True
+    qk_norm: null  # null | rms_norm
+    conv_layers: 4
+    pe_attn_head: null
+    attn_backend: torch  # torch | flash_attn
+    attn_mask_enabled: False
+    checkpoint_activations: False  # recompute activations and save memory for extra compute
+  mel_spec:
+    target_sample_rate: 16000
+    n_mel_channels: 100
+    hop_length: 256
+    win_length: 1024
+    n_fft: 1024
+    mel_spec_type: vocos  # vocos | bigvgan
+  vocoder:
+    is_local: False  # use local offline ckpt or not
+    local_path: null  # local vocoder path
+
+
+ckpts:
+  logger: wandb  # wandb | tensorboard | null
+  log_samples: True
+  save_per_updates: 2000  # save checkpoint every 2k updates
+  keep_last_n_checkpoints: 10  # keep last 10 checkpoints (-1 = keep all)
+  last_per_updates: 2000  # save "last" checkpoint every 2k updates
+  save_dir: ckpts/${model.name}_${model.mel_spec.mel_spec_type}_${model.tokenizer}_${datasets.name}
+  pretrained_checkpoint: /home/coder/datasets/hf_models/F5-TTS/F5TTS_v1_Base/model_1250000.safetensors  # path to pretrained .safetensors file (e.g., pretrained_model/F5TTS_Base/model_1200000.safetensors)
+  pretrained_vocab_path: /home/coder/datasets/hf_models/F5-TTS/F5TTS_v1_Base/vocab.txt  # path to pretrained vocab.txt (e.g., data/Emilia_ZH_EN_pinyin/vocab.txt)
+  expand_vocab: true  # set True to intelligently expand vocab by matching characters - CRITICAL for different vocab sizes!
+  wandb_project: "F5-TTS-Khmer-FT"      
+  wandb_run_name: "${model.name}_${datasets.name}_${now:%Y-%m-%d_%H-%M-%S}"  

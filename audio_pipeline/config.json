@@ -1,0 +1,59 @@
+{
+  "pipeline_config": {
+    "name": "Audio Processing Pipeline for TTS Data",
+    "version": "1.0.0",
+    "description": "Multi-stage pipeline for processing raw audio into TTS-ready dataset"
+  },
+  
+  "standardization": {
+    "target_sample_rate": 24000,
+    "target_channels": 1,
+    "target_rms_level": -20.0,
+    "supported_formats": [".wav", ".mp3", ".flac", ".m4a", ".ogg", ".opus"]
+  },
+  
+  "diarization": {
+    "model": "pyannote/speaker-diarization-community-1",
+    "min_segment_duration": 2.0,
+    "max_segment_duration": 40.0,
+    "use_auth_token": true,
+    "process_per_file": true
+  },
+  
+  "quality_filtering": {
+    "dnsmos_threshold": 3.0,
+    "model": "dnsmos_p835",
+    "model_path": "/home/coder/data/Speech/Data/Amphion/preprocessors/Emilia/pretrained_models/dnsmos/sig_bak_ovr.onnx",
+    "primary_model": "sig_bak_ovr.onnx",
+    "p808_model": "model_v8.onnx",
+    "filter_criteria": {
+      "min_ovrl": 3.0,
+      "min_sig": 3.0,
+      "min_bak": 3.5
+    }
+  },
+  
+  "asr": {
+    "model_card_ctc": "omniASR_CTC_300M",
+    "model_card_llm": "omniASR_LLM_300M",
+    "target_sample_rate": 16000,
+    "cer_threshold": 0.01,
+    "batch_size": 1
+  },
+  
+  "sidon": {
+    "enabled": true,
+    "model_name": "facebook/w2v-bert-2.0",
+    "adapter_path": "/home/coder/datasets/hf_models/sidon_raw_weight",
+    "decoder_path": null,
+    "target_sample_rate": 48000,
+    "use_fp16": true
+  },
+  
+  "output": {
+    "save_metadata": true,
+    "metadata_format": "json",
+    "create_csv": true,
+    "log_level": "INFO"
+  }
+}

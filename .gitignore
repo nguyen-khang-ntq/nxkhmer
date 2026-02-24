@@ -1,0 +1,143 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+.virtualenv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# Training outputs
+final_khmer_full/
+final_khmer_full_v2/
+checkpoint-*/
+runs/
+wandb/
+logs/
+ckpts/
+outputs/
+
+# XTTSv2 checkpoints
+model/XTTSv2-Finetuning-for-New-Languages/checkpoints/GPT_XTTS_FT-*/
+model/XTTSv2-Finetuning-for-New-Languages/output/
+!model/XTTSv2-Finetuning-for-New-Languages/checkpoints/XTTS_v2.0_original_model_files/
+
+# Model checkpoints and weights
+*.safetensors
+*.bin
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.pb
+*.onnx
+
+# Processed data
+train_processed_snac_data_clean/
+processed_snac_data_clean/
+neu_codec_clean_parquet/
+*.parquet
+*.arrow
+*.cache
+.cache/
+
+# Dataset files
+*.csv
+*.tsv
+*.json
+*.jsonl
+!vocab.txt
+!vocab.json
+!tokenizer_config.json
+!special_tokens_map.json
+!config.json
+
+# Evaluation results
+eval_pipeline/cer_results_simple.csv
+eval_pipeline/mcd_results.csv
+eval_pipeline/results/*.csv
+eval_pipeline/results/*.json
+
+# Audio files
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+*.opus
+*.aac
+
+# Generated audio outputs
+generated_final/
+generated_final_fleurs/
+generated_final_openslr/
+output/
+outputs/
+
+# F5-TTS specific
+src/f5_tts/train/datasets/*/wavs/
+src/f5_tts/train/datasets/*/metadata.csv
+.hydra/
+multirun/
+
+# Documentation (keep only main docs)
+!README.md
+!INSTALL.md
+!TESTING.md
+!requirements.txt
+!setup.py
+!pyproject.toml
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.log
+*.bak
+.~*
+
+# System files
+.Trash-*/
+Thumbs.db
+*.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Hydra
+.hydra/
+outputs/
+multirun/
+
+# WandB
+wandb/
+artifacts/
