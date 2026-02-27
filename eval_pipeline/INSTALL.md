@@ -31,8 +31,8 @@ pip install -e .
 The current implementation loads OmniASR models directly from `.pt` files.
 
 **Requirements:**
-- Model files: `/home/coder/data/Speech/ASR/omnilingual-asr/omniASR-{TYPE}-{SIZE}.pt`
-- Tokenizer: `/home/coder/data/Speech/ASR/omnilingual-asr/omniASR_tokenizer_v7.model`
+- Model files: `<model_dir>/omniASR-{TYPE}-{SIZE}.pt`
+- Tokenizer: `<model_dir>/omniASR_tokenizer_v7.model`
 
 **Usage:**
 ```python

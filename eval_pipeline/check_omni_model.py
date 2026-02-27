@@ -4,15 +4,21 @@ Check OmniASR model checkpoint structure
 
 import torch
 from pathlib import Path
+import argparse
 
-model_dir = Path("/home/coder/data/Speech/ASR/omnilingual-asr")
+def main():
+    parser = argparse.ArgumentParser(description='Check OmniASR model structure')
+    parser.add_argument('--model-dir', required=True, help='Directory containing OmniASR models')
+    parser.add_argument('--model-name', default='omniASR-CTC-1B.pt', help='Model filename to check')
+    
+    args = parser.parse_args()
+    
+    model_dir = Path(args.model_dir)
+    model_path = model_dir / args.model_name
 
-# Check one model file
-model_path = model_dir / "omniASR-CTC-1B.pt"
-
-if model_path.exists():
-    print(f"Loading {model_path}...")
-    print("=" * 60)
+    if model_path.exists():
+        print(f"Loading {model_path}...")
+        print("=" * 60)
     
     checkpoint = torch.load(model_path, map_location='cpu')
     
@@ -52,6 +58,12 @@ if model_path.exists():
         print("❌ This checkpoint requires official OmniASR package")
         print("   You need to install OmniASR to use these models")
         print("   OR use Whisper instead: asr_type='whisper'")
+    else:
+        print("✓ Model structure checked successfully")
+
+
+if __name__ == "__main__":
+    main()
     else:
         print("✓ Checkpoint can be loaded directly")
         print("  Current wrapper should work")

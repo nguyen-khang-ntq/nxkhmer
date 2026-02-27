@@ -13,6 +13,7 @@ from tqdm import tqdm
 from underthesea import sent_tokenize
 import argparse
 import random
+import time
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
 
@@ -325,10 +326,12 @@ def main():
     successful = 0
     failed = 0
     errors = []
+    results = []
     
     print(f"\n🎵 Generating audio for {len(test_df)} test samples...")
     
     for idx, row in tqdm(test_df.iterrows(), total=len(test_df), desc="Generating"):
+        start_time = time.time()
         try:
             audio_file = row['audio_file']
             text = row['text']
@@ -371,13 +374,50 @@ def main():
             # Save audio
             torchaudio.save(output_path, wav.cpu(), generator.sample_rate)
             
+            # Calculate RTF
+            processing_time = time.time() - start_time
+            audio_duration = wav.shape[1] / generator.sample_rate
+            rtf = processing_time / audio_duration if audio_duration > 0 else 0
+            
+            results.append({
+                'audio_file': audio_file,
+                'status': 'success',
+                'output_path': output_path,
+                'processing_time': round(processing_time, 3),
+                'audio_duration': round(audio_duration, 3),
+                'rtf': round(rtf, 3)
+            })
+            
             successful += 1
             
         except Exception as e:
             error_msg = f"{audio_file}: {str(e)}"
             errors.append(error_msg)
+            results.append({
+                'audio_file': audio_file,
+                'status': 'failed',
+                'error': str(e)
+            })
             print(f"\n❌ Error: {error_msg}")
             failed += 1
+    
+    # Calculate RTF statistics
+    rtf_values = []
+    total_audio_duration = 0
+    total_processing_time = 0
+    
+    for result in results:
+        if result['status'] == 'success' and 'rtf' in result and result['rtf'] > 0:
+            rtf_values.append(result['rtf'])
+        if 'audio_duration' in result:
+            total_audio_duration += result['audio_duration']
+        if 'processing_time' in result:
+            total_processing_time += result['processing_time']
+    
+    # Save results log
+    results_df = pd.DataFrame(results)
+    results_csv = os.path.join(args.output_dir, "generation_results.csv")
+    results_df.to_csv(results_csv, index=False)
     
     # Print summary
     print("\n" + "="*80)
@@ -386,6 +426,22 @@ def main():
     print(f"Successfully generated: {successful}")
     print(f"Failed: {failed}")
     print(f"Output directory: {args.output_dir}")
+    print(f"Results log: {results_csv}")
+    
+    # RTF Statistics
+    if rtf_values:
+        avg_rtf = sum(rtf_values) / len(rtf_values)
+        min_rtf = min(rtf_values)
+        max_rtf = max(rtf_values)
+        print(f"\n📊 RTF Statistics:")
+        print(f"Average RTF: {avg_rtf:.3f}")
+        print(f"Min RTF: {min_rtf:.3f}")
+        print(f"Max RTF: {max_rtf:.3f}")
+        print(f"Total audio duration: {total_audio_duration:.2f}s")
+        print(f"Total processing time: {total_processing_time:.2f}s")
+        if total_audio_duration > 0:
+            overall_rtf = total_processing_time / total_audio_duration
+            print(f"Overall RTF: {overall_rtf:.3f}")
     
     if errors:
         print(f"\n❌ Failed samples (showing first 10):")

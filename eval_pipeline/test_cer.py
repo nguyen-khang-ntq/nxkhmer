@@ -50,11 +50,19 @@ def calculate_cer_simple(predicted_text, reference_text):
 
 def main():
     """Calculate CER for generated audio"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Calculate CER for generated audio')
+    parser.add_argument('--csv', required=True, help='Path to CSV file with reference text')
+    parser.add_argument('--generated-dir', required=True, help='Directory containing generated audio files')
+    parser.add_argument('--output-csv', default='./cer_results_simple.csv', help='Output CSV file path')
+    
+    args = parser.parse_args()
     
     # Paths
-    csv_path = "/home/coder/datasets/crawl_datasets/hf_ready/test.csv"
-    generated_audio_dir = "/home/coder/data/Interspeech/model/XTTSv2-Finetuning-for-New-Languages/generated_final"
-    output_csv = "/home/coder/data/Speech/TTS/Orpheus/cer_results_simple.csv"
+    csv_path = args.csv
+    generated_audio_dir = args.generated_dir
+    output_csv = args.output_csv
 
     print("="*70)
     print("CER Calculation for Generated Audio")

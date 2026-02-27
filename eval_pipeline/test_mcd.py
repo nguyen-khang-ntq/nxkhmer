@@ -16,12 +16,21 @@ from pymcd.mcd import Calculate_MCD
 
 def main():
     """Calculate MCD for generated audio"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Calculate MCD for generated audio')
+    parser.add_argument('--csv', required=True, help='Path to CSV file with reference data')
+    parser.add_argument('--generated-dir', required=True, help='Directory containing generated audio files')
+    parser.add_argument('--reference-dir', required=True, help='Base directory for reference audio files')
+    parser.add_argument('--output-csv', default='./mcd_results.csv', help='Output CSV file path')
+    
+    args = parser.parse_args()
     
     # Paths
-    csv_path = "/home/coder/datasets/crawl_datasets/final_dataset/test_clean.csv"
-    generated_audio_dir = "/home/coder/data/Speech/TTS/khmer-tts/recipes/interspeech/vits/test_generated_mms"
-    reference_audio_base = "/home/coder/datasets/crawl_datasets/final_dataset"  # Base directory for reference audio
-    output_csv = "/home/coder/data/Interspeech/eval_pipeline/mcd_results.csv"
+    csv_path = args.csv
+    generated_audio_dir = args.generated_dir
+    reference_audio_base = args.reference_dir
+    output_csv = args.output_csv
     
     print("="*70)
     print("MCD Calculation for Generated Audio")

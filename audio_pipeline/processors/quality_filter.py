@@ -43,7 +43,7 @@ class QualityFilter:
         if config is None:
             config = {
                 'dnsmos_threshold': 3.0,
-                'model_path': '/home/coder/data/Interspeech/eval_pipeline/models/dnsmos_p835',
+                'model_path': None,  # Path to DNSMOS ONNX model
                 'primary_model': 'sig_bak_ovr.onnx',
                 'p808_model': 'model_v8.onnx',
                 'filter_criteria': {
@@ -54,7 +54,7 @@ class QualityFilter:
             }
         
         self.threshold = config.get('dnsmos_threshold', 3.0)
-        self.model_path = config.get('model_path', '/home/coder/data/Interspeech/eval_pipeline/models/dnsmos_p835')
+        self.model_path = config.get('model_path', None)  # Path to DNSMOS ONNX model
         self.criteria = config.get('filter_criteria', {
             'min_ovrl': 3.0,
             'min_sig': 3.0,

@@ -23,7 +23,7 @@
   "quality_filtering": {
     "dnsmos_threshold": 3.0,
     "model": "dnsmos_p835",
-    "model_path": "/home/coder/data/Speech/Data/Amphion/preprocessors/Emilia/pretrained_models/dnsmos/sig_bak_ovr.onnx",
+    "model_path": null,
     "primary_model": "sig_bak_ovr.onnx",
     "p808_model": "model_v8.onnx",
     "filter_criteria": {
@@ -42,9 +42,9 @@
   },
   
   "sidon": {
-    "enabled": true,
+    "enabled": false,
     "model_name": "facebook/w2v-bert-2.0",
-    "adapter_path": "/home/coder/datasets/hf_models/sidon_raw_weight",
+    "adapter_path": null,
     "decoder_path": null,
     "target_sample_rate": 48000,
     "use_fp16": true

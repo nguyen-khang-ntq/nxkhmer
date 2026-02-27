@@ -1,6 +1,6 @@
-CUDA_VISIBLE_DEVICES=6 python train_gpt_xtts.py \
+CUDA_VISIBLE_DEVICES=4 python train_gpt_xtts.py \
 --output_path checkpoints/ \
---metadatas /home/coder/datasets/crawl_datasets/final_dataset/train_new.csv,/home/coder/datasets/crawl_datasets/final_dataset/val_new.csv,km \
+--metadatas /home/coder/datasets/khmer_audio_datasets/km_kh_male/train.csv,/home/coder/datasets/khmer_audio_datasets/km_kh_male/val.csv,km \
 --num_epochs 20 \
 --batch_size 8 \
 --grad_acumm 4 \
@@ -8,4 +8,4 @@ CUDA_VISIBLE_DEVICES=6 python train_gpt_xtts.py \
 --max_audio_length 441000 \
 --weight_decay 1e-2 \
 --lr 1e-5 \
---save_step 50000
+--save_step 500

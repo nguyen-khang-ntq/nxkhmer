@@ -135,14 +135,17 @@ def test_cer(matched_samples, output_dir):
         return False
 
 
-def test_mos(matched_samples, output_dir):
+def test_mos(matched_samples, output_dir, model_path=None):
     """Test MOS calculation"""
     print("\n" + "=" * 80)
     print("TEST 2: MOS (Mean Opinion Score)")
     print("=" * 80)
     
     try:
-        model_path = "/home/coder/data/Speech/Data/Amphion/preprocessors/Emilia/pretrained_models/dnsmos/sig_bak_ovr.onnx"
+        if model_path is None:
+            print("⚠ DNSMOS model path not provided!")
+            print("  Please provide model path via --dnsmos-model argument")
+            return False
         
         if not os.path.exists(model_path):
             print(f"⚠ DNSMOS model not found at: {model_path}")
@@ -375,15 +378,28 @@ def test_mcd(matched_samples, output_dir):
 
 
 def main():
+    """Example usage with command line arguments"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='TTS Evaluation Pipeline - Test Suite')
+    parser.add_argument('--csv', required=True, help='Path to CSV file with test data')
+    parser.add_argument('--generated-dir', required=True, help='Directory containing generated audio files')
+    parser.add_argument('--reference-dir', help='Base directory for reference audio files')
+    parser.add_argument('--output-dir', default='./results', help='Output directory for results')
+    parser.add_argument('--dnsmos-model', help='Path to DNSMOS ONNX model file (optional)')
+    
+    args = parser.parse_args()
+    
     print("=" * 80)
     print("TTS EVALUATION PIPELINE - CONSOLIDATED TEST SUITE")
     print("=" * 80)
     
     # Configuration
-    csv_path = "/home/coder/datasets/khmer_audio_datasets/fleurs_km_export/test.csv"
-    generated_audio_dir = "/home/coder/data/Speech/TTS/Orpheus/generated_final_fleurs"
-    reference_audio_base = "/home/coder/datasets/khmer_audio_datasets/fleurs_km_export/"
-    output_dir = "/home/coder/data/Interspeech/eval_pipeline/results"
+    csv_path = args.csv
+    generated_audio_dir = args.generated_dir
+    reference_audio_base = args.reference_dir if args.reference_dir else os.path.dirname(csv_path)
+    output_dir = args.output_dir
+    dnsmos_model_path = args.dnsmos_model
     
     # Create output directory
     os.makedirs(output_dir, exist_ok=True)
@@ -446,7 +462,7 @@ def main():
     results = []
     
     results.append(("CER (Character Error Rate)", test_cer(matched_samples, output_dir)))
-    results.append(("MOS (Mean Opinion Score)", test_mos(matched_samples, output_dir)))
+    results.append(("MOS (Mean Opinion Score)", test_mos(matched_samples, output_dir, dnsmos_model_path)))
     results.append(("Speaker Similarity", test_similarity(matched_samples, output_dir)))
     results.append(("MCD (Mel-Cepstral Distortion)", test_mcd(matched_samples, output_dir)))
     

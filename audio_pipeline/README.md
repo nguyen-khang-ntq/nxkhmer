@@ -98,9 +98,9 @@ Edit `config.json` to customize pipeline behavior:
     "target_sample_rate": 16000
   },
   "sidon": {
-    "enabled": true,
+    "enabled": false,
     "model_name": "facebook/w2v-bert-2.0",
-    "adapter_path": "/home/coder/datasets/hf_models/sidon_raw_weight",
+    "adapter_path": null,
     "target_sample_rate": 48000,
     "use_fp16": true
   }

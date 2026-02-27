@@ -12,7 +12,7 @@ class ModelConfig:
     asr_model_name: str = "openai/whisper-large-v3"
     asr_type: str = "whisper"  # "whisper" or "omni"
     mos_model_name: str = "cdminix/wav2vec2-base-utmos"
-    dnsmos_model_path: Optional[str] = "/home/coder/data/Speech/Data/Amphion/preprocessors/Emilia/pretrained_models/dnsmos/sig_bak_ovr.onnx"
+    dnsmos_model_path: Optional[str] = None  # Path to DNSMOS ONNX model file
     device: str = "cuda"
     sample_rate: int = 16000
 
